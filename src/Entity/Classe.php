@@ -27,7 +27,7 @@ class Classe
     #[Groups(['read_classe', 'write_classe'])]
     private $student_id;
 
-    #[ORM\OneToOne(mappedBy: 'classe', targetEntity: Professor::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'classe', targetEntity: Professor::class)]
     #[Groups(['read_classe', 'write_classe'])]
     private $professor;
 

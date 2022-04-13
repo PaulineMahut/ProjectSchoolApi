@@ -19,7 +19,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['user_read', 'user_write'])]
+    #[Groups(['user_read', 'user_write', 'read_student', 'write_student', 'write_professor', 'read_professor' ])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
@@ -31,7 +31,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $roles = [];
 
     #[ORM\Column(type: 'string')]
-    #[Groups(['user_read', 'user_write'])]
+    #[Groups(['user_read', 'user_write', 'write_student', 'read_student', 'write_professor', 'read_professor'])]
     private $password;
 
     #[ORM\Column(type: 'string', length: 50)]

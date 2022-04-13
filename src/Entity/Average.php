@@ -22,7 +22,7 @@ class Average
     private $rate;
 
     #[ORM\ManyToOne(targetEntity: Student::class, inversedBy: 'averages')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     #[Groups(['read_average', 'write_average'])]
     private $student;
 

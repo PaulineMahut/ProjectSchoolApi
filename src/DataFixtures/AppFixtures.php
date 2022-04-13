@@ -33,9 +33,16 @@ class AppFixtures extends Fixture
         $directeur->setPassword($hashedPassword)->setEmail('directeur@directeur.fr');
         $manager->persist($directeur);
 
-        // La classe cp
+        // Les classes
         $cp = (new Classe())->setName("CP");
         $manager->persist($cp);
+
+        $classes = ['CE1', 'CE2', 'CM1', 'CM2'];
+        $i = 0;
+        foreach ($classes as $key => $classe) {
+            $newClasse = (new Classe())->setName($classe);
+            $manager->persist($newClasse);
+        }
 
         // Le professeur
 

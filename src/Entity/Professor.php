@@ -23,8 +23,8 @@ class Professor extends User
     #[Groups(['read_professor', 'write_professor'])]
     private $salary;
 
-    #[ORM\OneToOne(inversedBy: 'professor', targetEntity: Classe::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\OneToOne(inversedBy: 'professor', targetEntity: Classe::class)]
+    #[ORM\JoinColumn(nullable: true)]
     #[Groups(['read_professor', 'write_professor'])]
     private $classe;
 

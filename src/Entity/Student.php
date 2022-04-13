@@ -24,6 +24,7 @@ class Student extends User
 
     #[ORM\OneToMany(mappedBy: 'student', targetEntity: Average::class)]
     #[Groups(['read_student', 'write_student'])]
+    #[ORM\JoinColumn(nullable: true)]
     private $averages;
 
     public function __construct()
