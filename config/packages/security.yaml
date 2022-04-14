@@ -29,6 +29,17 @@ security:
             pattern: ^/api/token/refresh
             stateless: true
             refresh_jwt: ~
+        
+        user:
+            pattern: ^/api/users
+            stateless: true
+            jwt: ~
+        
+        classe:
+            pattern: ^/api/classes
+            stateless: true
+            jwt: ~
+
         main:
             lazy: true
             provider: app_user_provider
@@ -43,6 +54,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/users, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/classes, roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/api, roles: PUBLIC_ACCESS }
         - { path: ^/api/token/refresh, roles: PUBLIC_ACCESS }
         # - { path: ^/api/login_check, roles: PUBLIC_ACCESS }
