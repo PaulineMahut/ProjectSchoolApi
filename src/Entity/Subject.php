@@ -23,7 +23,7 @@ class Subject
     #[Groups(['read_subject', 'write_subject'])]
     private $name;
 
-    #[ORM\OneToMany(mappedBy: 'subject', targetEntity: Average::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'subject', targetEntity: Average::class)]
     #[Groups(['read_subject', 'write_subject'])]
     private $average;
 

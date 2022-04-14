@@ -26,8 +26,7 @@ class Average
     #[Groups(['read_average', 'write_average'])]
     private $student;
 
-    #[ORM\ManyToOne(inversedBy: 'average', targetEntity: Subject::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(inversedBy: 'average', targetEntity: Subject::class)]
     #[Groups(['read_average', 'write_average'])]
     private $subject;
 

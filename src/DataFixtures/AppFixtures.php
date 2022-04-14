@@ -23,7 +23,7 @@ class AppFixtures extends Fixture
     {
         $this->encoder = $encoder;
     }
-    
+
     public function load(ObjectManager $manager): void
     {
 
@@ -37,7 +37,10 @@ class AppFixtures extends Fixture
         $cp = (new Classe())->setName("CP");
         $manager->persist($cp);
 
-        $classes = ['CE1', 'CE2', 'CM1', 'CM2'];
+        $ce1 = (new Classe())->setName("CE1");
+        $manager->persist($ce1);
+
+        $classes = ['CE2', 'CM1', 'CM2'];
         $i = 0;
         foreach ($classes as $key => $classe) {
             $newClasse = (new Classe())->setName($classe);
@@ -51,18 +54,31 @@ class AppFixtures extends Fixture
         $profCp->setPassword($hashedPassword)->setEmail('JeanDelenoix@cp.fr')->setLastname('Delenoix')->setFirstname('Jean')->setRoles(['Professor']);
         $manager->persist($profCp);
 
+        $profCe1 = (new Professor())->setAge(23)->setSalary(1250)->setSeniority('1 an')->setClasse($ce1);
+        $hashedPassword = $this->encoder->hashPassword($profCe1, "jb");
+        $profCe1->setPassword($hashedPassword)->setEmail('JustineBekritch@ce1.fr')->setLastname('Bekritch')->setFirstname('Justine')->setRoles(['Professor']);
+        $manager->persist($profCe1);
+
         // Elèves CP
         $faker = Faker::create('fr_FR');
         $gender = ['male', 'female'];
-        
-        for ($i=0; $i < 15; $i++) { 
 
-        $cpStudent = (new Student())->setClasse($cp)->setSexe($faker->randomElement($gender));
-        $hashedPassword = $this->encoder->hashPassword($cpStudent, "jd");
-        $cpStudent->setPassword($hashedPassword)->setEmail($faker->email)->setLastname($faker->lastname)->setFirstname($faker->firstname)->setRoles(['Student']);
-        $manager->persist($cpStudent);
-        }   
-        
+        for ($i = 0; $i < 15; $i++) {
+
+            $cpStudent = (new Student())->setClasse($cp)->setSexe($faker->randomElement($gender));
+            $hashedPassword = $this->encoder->hashPassword($cpStudent, "jd");
+            $cpStudent->setPassword($hashedPassword)->setEmail($faker->email)->setLastname($faker->lastname)->setFirstname($faker->firstname)->setRoles(['Student']);
+            $manager->persist($cpStudent);
+        }
+
+        for ($i = 0; $i < 15; $i++) {
+
+            $ce1Student = (new Student())->setClasse($ce1)->setSexe($faker->randomElement($gender));
+            $hashedPassword = $this->encoder->hashPassword($ce1Student, "jd");
+            $ce1Student->setPassword($hashedPassword)->setEmail($faker->email)->setLastname($faker->lastname)->setFirstname($faker->firstname)->setRoles(['Student']);
+            $manager->persist($ce1Student);
+        }
+
         // Matiere
         $matieres = ['Histoire-Géographie', 'Français', 'Mathématiques', 'Sciences', 'Sport'];
         $i = 0;
@@ -70,15 +86,14 @@ class AppFixtures extends Fixture
             $subject = (new Subject())->setName($matiere);
             $manager->persist($subject);
 
-            $this->addReference('subject'. $i++,  $subject);
+            $this->addReference('subject' . $i++,  $subject);
         }
-       // Note
-       for ($i=0; $i < 5 ; $i++) { 
-        $note = (new Average())->setRate(random_int(0, 20))->setStudent($cpStudent)->setSubject($this->getReference('subject'. $i));
-        $manager->persist($note);
-       }
+        // Note
+        for ($i = 0; $i < 5; $i++) {
+            $note = (new Average())->setRate(random_int(0, 20))->setStudent($cpStudent)->setSubject($this->getReference('subject' . $i));
+            $manager->persist($note);
+        }
 
-       $manager->flush();
-
+        $manager->flush();
     }
 }
