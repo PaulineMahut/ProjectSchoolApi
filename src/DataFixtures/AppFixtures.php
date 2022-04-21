@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Average;
 use App\Entity\Classe;
+use App\Entity\Note;
 use App\Entity\Professor;
 use App\Entity\Student;
 use App\Entity\Subject;
@@ -90,7 +91,7 @@ class AppFixtures extends Fixture
         }
         // Note
         for ($i = 0; $i < 5; $i++) {
-            $note = (new Average())->setRate(random_int(0, 20))->setStudent($cpStudent)->setSubject($this->getReference('subject' . $i));
+            $note = (new Note())->setRate(random_int(0, 20))->setStudent($cpStudent)->addSubject($this->getReference('subject' . $i));
             $manager->persist($note);
         }
 

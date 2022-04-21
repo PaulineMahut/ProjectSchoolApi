@@ -23,13 +23,15 @@ class Subject
     #[Groups(['read_subject', 'write_subject'])]
     private $name;
 
-    #[ORM\OneToMany(mappedBy: 'subject', targetEntity: Average::class)]
+    #[ORM\ManyToMany(targetEntity: Note::class, inversedBy: 'subjects')]
     #[Groups(['read_subject', 'write_subject'])]
-    private $average;
+    private $notes;
+
 
     public function __construct()
     {
         $this->student = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -49,19 +51,26 @@ class Subject
         return $this;
     }
 
-    public function getAverage(): ?Average
+    /**
+     * @return Collection<int, Note>
+     */
+    public function getNotes(): Collection
     {
-        return $this->average;
+        return $this->notes;
     }
 
-    public function setAverage(Average $average): self
+    public function addNote(Note $note): self
     {
-        // set the owning side of the relation if necessary
-        if ($average->getSubject() !== $this) {
-            $average->setSubject($this);
+        if (!$this->notes->contains($note)) {
+            $this->notes[] = $note;
         }
 
-        $this->average = $average;
+        return $this;
+    }
+
+    public function removeNote(Note $note): self
+    {
+        $this->notes->removeElement($note);
 
         return $this;
     }

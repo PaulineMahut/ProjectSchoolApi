@@ -22,15 +22,13 @@ class Student extends User
     #[Groups(['read_student', 'write_student'])]
     private $classe;
 
-    #[ORM\OneToMany(mappedBy: 'student', targetEntity: Average::class)]
-    #[Groups(['read_student', 'write_student'])]
-    #[ORM\JoinColumn(nullable: true)]
-    private $averages;
+    #[ORM\OneToMany(mappedBy: 'student', targetEntity: Note::class)]
+    private $notes;
 
     public function __construct()
     {
         $this->subjects = new ArrayCollection();
-        $this->averages = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     public function getSexe(): ?string
@@ -58,34 +56,32 @@ class Student extends User
     }
 
     /**
-     * @return Collection<int, Average>
+     * @return Collection<int, Note>
      */
-    public function getAverages(): Collection
+    public function getNotes(): Collection
     {
-        return $this->averages;
+        return $this->notes;
     }
 
-    public function addAverage(Average $average): self
+    public function addNote(Note $note): self
     {
-        if (!$this->averages->contains($average)) {
-            $this->averages[] = $average;
-            $average->setStudent($this);
+        if (!$this->notes->contains($note)) {
+            $this->notes[] = $note;
+            $note->setStudent($this);
         }
 
         return $this;
     }
 
-    public function removeAverage(Average $average): self
+    public function removeNote(Note $note): self
     {
-        if ($this->averages->removeElement($average)) {
+        if ($this->notes->removeElement($note)) {
             // set the owning side to null (unless already changed)
-            if ($average->getStudent() === $this) {
-                $average->setStudent(null);
+            if ($note->getStudent() === $this) {
+                $note->setStudent(null);
             }
         }
 
         return $this;
     }
-
-  
 }
